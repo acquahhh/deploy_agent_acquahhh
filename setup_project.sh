@@ -47,7 +47,6 @@ if ! mkdir -p "$PROJECT_DIR/Helpers" "$PROJECT_DIR/reports"; then
 fi
 
 echo "Structure created successfully."
-ls -R "$PROJECT_DIR"
 
 # 6. Generate the project files
 cat > "$PROJECT_DIR/attendance_checker.py" << 'EOF'
@@ -152,3 +151,40 @@ if [ "$UPDATE" = "y" ] || [ "$UPDATE" = "Y" ]; then
 else
     echo "Keeping default thresholds (75/50)."
 fi
+    # 8. Environment validation - health check
+echo ""
+echo "---------- HEALTH CHECK ----------"
+
+if PY_VERSION=$(python3 --version 2>&1); then
+    echo "OK: Python found - $PY_VERSION"
+else
+    echo "WARNING: python3 is NOT installed on this system."
+fi
+
+STRUCTURE_OK=true
+for path in \
+    "$PROJECT_DIR/attendance_checker.py" \
+    "$PROJECT_DIR/Helpers/assets.csv" \
+    "$PROJECT_DIR/Helpers/config.json" \
+    "$PROJECT_DIR/reports/reports.log"
+do
+    if [ -e "$path" ]; then
+        echo "OK: Found $path"
+    else
+        echo "MISSING: $path"
+        STRUCTURE_OK=false
+    fi
+done
+
+echo "----------------------------------"
+if [ "$STRUCTURE_OK" = true ]; then
+    echo "SUCCESS: Project '$PROJECT_DIR' bootstrapped successfully!"
+else
+    echo "Setup finished with missing components - please review."
+    exit 1
+fi
+
+# Setup complete - disarm the trap so Ctrl+C no longer deletes the project
+trap - SIGINT
+exit 0 
+
