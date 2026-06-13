@@ -14,4 +14,24 @@ PROJECT_DIR="attendance_tracker_${USER_INPUT}"
 ARCHIVE_NAME="attendance_tracker_${USER_INPUT}_archive"
 
 # Temporary test line - remove later
-echo "Will create: $PROJECT_DIR"
+
+# 4. Handle the case where the directory already exists
+if [ -d "$PROJECT_DIR" ]; then
+    read -p "'$PROJECT_DIR' already exists. Overwrite it? (y/N): " OVERWRITE
+    if [ "$OVERWRITE" = "y" ] || [ "$OVERWRITE" = "Y" ]; then
+        rm -rf "$PROJECT_DIR"
+    else
+        echo "Aborting to avoid overwriting existing work."
+        exit 1
+    fi
+fi
+
+# 5. Create the directory structure, catching permission errors
+echo "Creating directory structure..."
+if ! mkdir -p "$PROJECT_DIR/Helpers" "$PROJECT_DIR/reports"; then
+    echo "ERROR: Could not create '$PROJECT_DIR' (permission denied?)"
+    exit 1
+fi
+
+echo "Structure created successfully."
+ls -R "$PROJECT_DIR"
