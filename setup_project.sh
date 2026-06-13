@@ -10,6 +10,20 @@ done
 
 # 3. Build the names we'll use for the rest of the script
 PROJECT_DIR="attendance_tracker_${USER_INPUT}"
+# Signal trap - graceful handling of Ctrl+C (SIGINT)
+cleanup_on_interrupt() {
+    echo ""
+    echo "SIGINT caught - setup cancelled by user."
+    if [ -d "$PROJECT_DIR" ]; then
+        echo "Bundling current state into ${ARCHIVE_NAME}.tar.gz ..."
+        tar -czf "${ARCHIVE_NAME}.tar.gz" "$PROJECT_DIR"
+        echo "Removing incomplete directory..."
+        rm -rf "$PROJECT_DIR"
+        echo "Workspace cleaned. Archive saved."
+    fi
+    exit 130
+}
+trap cleanup_on_interrupt SIGINT
 ARCHIVE_NAME="attendance_tracker_${USER_INPUT}_archive"
 
 # Temporary test line - remove later
