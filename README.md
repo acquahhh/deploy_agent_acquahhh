@@ -51,6 +51,15 @@ Restore later with: tar -xzf attendance_tracker_<yourname>_archive.tar.gz
 - Threshold values must be whole numbers; invalid input is re-prompted.
 - Pressing Enter keeps the default value.
 
+## Testing & Debugging
+
+While testing, running attendance_checker.py threw KeyError: 'Names'.
+The CSV had been pasted with tab/space separators instead of commas,
+so Python's DictReader saw one column instead of four. I fixed the
+heredoc to use proper comma-separated values, after which the script
+correctly logged URGENT alerts for students below the failure threshold.
+I also hit a main vs master branch mismatch and resolved it with
+git branch -m master main.
 ## Video Walkthrough
 
 [Add your video link here]
