@@ -10,6 +10,7 @@ done
 
 # 3. Build the names we'll use for the rest of the script
 PROJECT_DIR="attendance_tracker_${USER_INPUT}"
+ARCHIVE_NAME="attendance_tracker_${USER_INPUT}_archive"
 # Signal trap - graceful handling of Ctrl+C (SIGINT)
 cleanup_on_interrupt() {
     echo ""
@@ -24,7 +25,6 @@ cleanup_on_interrupt() {
     exit 130
 }
 trap cleanup_on_interrupt SIGINT
-ARCHIVE_NAME="attendance_tracker_${USER_INPUT}_archive"
 
 # Temporary test line - remove later
 
