@@ -62,7 +62,7 @@ I also hit a main vs master branch mismatch and resolved it with
 git branch -m master main.
 ## Video Walkthrough
 
-[Add your video link here]
+[(https://youtu.be/h1XePEhCrt4)]
 
 ## Author
 
