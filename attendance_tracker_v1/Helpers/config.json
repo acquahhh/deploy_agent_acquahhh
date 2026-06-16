@@ -1,6 +1,6 @@
 {
     "thresholds": {
-        "warning": 75,
+        "warning": 80,
         "failure": 50
     },
     "run_mode": "live",
